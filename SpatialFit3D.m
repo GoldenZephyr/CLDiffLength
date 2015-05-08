@@ -1,6 +1,9 @@
-clc
+ls "./images"
 clear
 clf reset
+addpath(pwd)
+addpath([pwd "/subfunctions/"])
+cd "images"
 %  -------------------------------------------------------------------------
 %% Values to be changed in the code
 %  -------------------------------------------------------------------------
@@ -11,7 +14,7 @@ InitialDiffusionLength = 2.5; %Diffusion Length for first fit iteration         
 InitialRecombinationVelocity = 10; %RecombinationVelocity/Diffusivity for first fit iteration NOTE: although the variable is named InitialRecombinationVelocity (and later Recombination Velocity) this term is actually the Recombination Velocity diveded by the Diffusivity
 InitialAmplitude = 1; %Amplitude for first fit iteration                                      %%%%
 FileExtension = '.png'; %Extension for type of file
-OutputDirectory = 'H:\MyDocs\Completed Matlab Programs\3D Fits\Output\';
+directory = pwd;
 OutputExtension = '.CSV'; %Change if another output format is necessary
 FirstDatapoint = 2; %Set the first data point to be used in MICRONS
 LastDatapoint = 15; %Set the last data point to be used in MICRONS
@@ -26,11 +29,14 @@ LastDatapoint = round(LastDatapoint/PixelResolution);
 %% Sets Paths -- Must be changed if file is moved
 %  ------------------------------------------------------------------------
 
-mainpath = 'H:\MyDocs\Completed Matlab Programs\3D Fits'; %This path needs to be changed every time the file is moved
+%mainpath = pwd; %This path needs to be changed every time the file is moved
+%images = [mainpath '/images/'];
+%output = [mainpath '/output/'];
+%subfunctions '/subfunctions/'];
 
-addpath([mainpath '/Images/']);
-addpath([mainpath '/Output/']);
-addpath([mainpath '/subfunctions/']);
+%addpath([pwd '/images/']);
+%addpath([pwd '/output/']);
+%addpath([pwd '/subfunctions/']);
 
 
 %  ------------------------------------------------------------------------
@@ -39,7 +45,7 @@ addpath([mainpath '/subfunctions/']);
 
 ImageFilename = input('Load which image file? ', 's');
 plotname = ImageFilename;
-ImageFilename = [ImageFilename FileExtension];
+%ImageFilename = [ImageFilename FileExtension];
 
 
 BackgroundFile = input('Name of Background File: ','s');%Use for manual input of background file name
@@ -48,11 +54,11 @@ BackgroundFile = input('Name of Background File: ','s');%Use for manual input of
         bgSubtraction = 0;
    else
         bgSubtraction = 1;
-        BackgroundFile = [BackgroundFile FileExtension];
+        %BackgroundFile = [BackgroundFile FileExtension];
    end
    
 OutputFilename = input('What should the output file be named? ','s');
-savename = [OutputDirectory OutputFilename FileExtension];
+savename = [pwd '/' OutputFilename FileExtension];
 OutputFilename = [OutputFilename OutputExtension];
    
 
