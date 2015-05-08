@@ -97,7 +97,7 @@ CutImage = Norm4fit(CutImage);
 
 [Length, Width] = size(RollingAverage);
 
-XLength = 0:Length-1; %XLength is the Distance along the line scan
+XLength = 0:Length+ceil((Points2Roll+1)/2); %XLength is the Distance along the line scan
 XLength = XLength*.4;
 XLength = XLength';
 
@@ -122,7 +122,7 @@ outData=zeros(length(RollingAverage(:,1)),3)*NaN;
     XWidth(FirstDatapoint:LastDatapoint),RollingAverage(1,FirstDatapoint:LastDatapoint), plotname, savename);
 
 
-outData(1,1) = XLength(1);
+outData(1,1) = XLength(ceil((Points2Roll+1)/2));
 outData(1,2) = DiffusionLength(1);
 outData(1,3) = Intensity(1);
 %outData(1,4) = time(1);
@@ -135,8 +135,8 @@ dlmwrite([base '/output/' OutputFilename], outData(1,1:3), '-append')
 %-------------------%
 
 figure6 = figure(6);
-plot(XLength(1),DiffusionLength(1,1), '.');
-hold;
+plot(XLength(ceil((Points2Roll+1)/2)),DiffusionLength(1,1), '.');
+hold on;
 grid();
 xlabel('Distance into line','VerticalAlignment','cap','HorizontalAlignment','center');
 ylabel('Diffusion Length','Visible','off','HorizontalAlignment','center');
@@ -151,9 +151,9 @@ for k = 2:length(RollingAverage(:,1)) %This is the main fitting loop. The loop r
     display(time(k))
     
     figure(6);
-    plot(XLength(k),DiffusionLength(k,1), '.');
+    plot(XLength(ceil((Points2Roll+1)/2)+k-1),DiffusionLength(k,1), '.');
    
-    outData(k,1) = XLength(k); % Puts the desired output information into the outData matrix, which is then written to the output file.
+    outData(k,1) = XLength(ceil((Points2Roll+1)/2)+k-1); % Puts the desired output information into the outData matrix, which is then written to the output file.
     outData(k,2) = DiffusionLength(k);
     outData(k,3) = Intensity(k);
     outData(k,4) = time(k);
