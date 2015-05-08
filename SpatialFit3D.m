@@ -1,6 +1,7 @@
 ls "./images"
 clear
 clf reset
+base = pwd;
 addpath(pwd)
 addpath([pwd "/subfunctions/"])
 cd "images"
@@ -58,7 +59,7 @@ BackgroundFile = input('Name of Background File: ','s');%Use for manual input of
    end
    
 OutputFilename = input('What should the output file be named? ','s');
-savename = [pwd '/' OutputFilename FileExtension];
+savename = [base '/output/' OutputFilename FileExtension];
 OutputFilename = [OutputFilename OutputExtension];
    
 
@@ -107,13 +108,13 @@ XWidth = XWidth*.4;
 %  to a file
 %  ------------------------------------------------------------------------
 
-DiffusionLength=zeros(length(RollingAverage(:,1)),1); % Allocates size of the fit variables
-RecombinationVelocity=zeros(length(RollingAverage(:,1)),1);
-Amplitude=zeros(length(RollingAverage(:,1)),1);
-phi=zeros(length(RollingAverage(:,1)),1);
-b=zeros(length(RollingAverage(:,1)),1);
-time=zeros(length(RollingAverage(:,1)),1);
-outData=zeros(length(RollingAverage(:,1)),4);
+DiffusionLength=zeros(length(RollingAverage(:,1)),1)*NaN; % Allocates size of the fit variables
+RecombinationVelocity=zeros(length(RollingAverage(:,1)),1)*NaN;
+Amplitude=zeros(length(RollingAverage(:,1)),1)*NaN;
+phi=zeros(length(RollingAverage(:,1)),1)*NaN;
+b=zeros(length(RollingAverage(:,1)),1)*NaN;
+time=zeros(length(RollingAverage(:,1)),1)*NaN;
+outData=zeros(length(RollingAverage(:,1)),3)*NaN;
 
 
 [DiffusionLength(1),RecombinationVelocity(1),Amplitude(1),phi(1)] = LMA_LVA_v1(... % Does a preliminary fit with the specified start values. The fit results are stored in the first position of the fit vectors. 
@@ -124,10 +125,10 @@ outData=zeros(length(RollingAverage(:,1)),4);
 outData(1,1) = XLength(1);
 outData(1,2) = DiffusionLength(1);
 outData(1,3) = Intensity(1);
-outData(1,4) = time(1);
+%outData(1,4) = time(1);
 
-dlmwrite([OutputDirectory OutputFilename], ['x' 'L'], ',') %Sets up the output .CSV file
-dlmwrite([OutputDirectory OutputFilename], outData(1,1:4), '-append')
+dlmwrite([base  '/output/' OutputFilename], ['"x"' '"LD"' '"Int"'], ',') %Sets up the output .CSV file
+dlmwrite([base '/output/' OutputFilename], outData(1,1:3), '-append')
 
 %-------------------%
 % Sets up plot
@@ -157,10 +158,11 @@ for k = 2:length(RollingAverage(:,1)) %This is the main fitting loop. The loop r
     outData(k,3) = Intensity(k);
     outData(k,4) = time(k);
     
-    dlmwrite([OutputDirectory OutputFilename], outData(k,1:4), '-append')
+    dlmwrite([base '/output/' OutputFilename], outData(k,1:3), '-append')
     
 
 
 
 end
 
+cd ".."
