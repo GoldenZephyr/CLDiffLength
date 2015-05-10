@@ -141,7 +141,7 @@ outData=zeros(length(RollingAverage(:,1)),3)*NaN;
 
 outData(1,1) = XLength(ceil((Points2Roll+1)/2));
 outData(1,2) = DiffusionLength(1);
-outData(1,3) = Intensity(1);
+outData(1,3) = Intensity(ceil((Points2Roll+1)/2));
 %outData(1,4) = time(1);
 
 dlmwrite([base  '/output/' OutputFilename], ['"x"' '"LD"' '"Int"'], ',') %Sets up the output .CSV file
@@ -172,7 +172,7 @@ for k = 2:length(RollingAverage(:,1)) %This is the main fitting loop. The loop r
    
     outData(k,1) = XLength(ceil((Points2Roll+1)/2)+k-1); % Puts the desired output information into the outData matrix, which is then written to the output file.
     outData(k,2) = DiffusionLength(k);
-    outData(k,3) = Intensity(k);
+    outData(k,3) = Intensity(ceil((Points2Roll+1)/2)+k-1);
     outData(k,4) = time(k);
     
     dlmwrite([base '/output/' OutputFilename], outData(k,1:3), '-append')
