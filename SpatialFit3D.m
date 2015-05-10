@@ -66,9 +66,25 @@ OutputFilename = [OutputFilename OutputExtension];
 %  ------------------------------------------------------------------------
 %% Calls the function to load and cut the data
 %  ------------------------------------------------------------------------
-[CutImage] = LoadAndCut(ImageFilename, BackgroundFile, bgSubtraction);
+[CutImage,startPixel] = LoadAndCut(ImageFilename, BackgroundFile, bgSubtraction);
 
+%extra routine to plot start point on original image
+fig4 = figure(4);
+hold on;
+dataPic = imread(ImageFilename);
+imshow(dataPic);
+[tmp,x] = max(mean(dataPic));
+y = startPixel;
+y2 = startPixel + length(CutImage(1,1:end));
 
+r = 5;
+t = linspace(0,2*pi,100)'; 
+circsx = r.*cos(t) + x; 
+circsy = r.*sin(t) + y; 
+plot(circsx,circsy);
+
+circsy2 = r.*sin(t) + y2
+plot(circsx,circsy2);
 %  ------------------------------------------------------------------------
 %% Gets the intensity data from the cut image
 %  ------------------------------------------------------------------------
@@ -98,6 +114,7 @@ CutImage = Norm4fit(CutImage);
 [Length, Width] = size(RollingAverage);
 
 XLength = 0:Length+ceil((Points2Roll+1)/2); %XLength is the Distance along the line scan
+XLength = XLength+startPixel;
 XLength = XLength*.4;
 XLength = XLength';
 
