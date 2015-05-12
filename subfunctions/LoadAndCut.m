@@ -39,9 +39,21 @@ figure1 = figure(1);
     ylabel('column','Visible','off','HorizontalAlignment','center');
     
 i = 1;
-while i<2 %this loops allows you to continue cutting the edges of the data until the plateau part is reached.
+while i<2 %this loops allows you to continue cutting the edges of the data until the desired part is reached.
     startX = input('Start Point: ');
     endX = input('End Point: ');
+    if isempty(startX) || isempty(endX)
+       baseline = mean(ImageFile(1,:))
+       cutoff = 5 * baseline
+       [tmp,hotrow] = max(mean(ImageFile'));
+       xi = find(ImageFile(hotrow,:)>cutoff,1)
+       xf = find(ImageFile(hotrow,:)>cutoff,1,'last')
+       ImageFile = ImageFile(:,xi:xf);
+       startPixel = xi;
+       
+       break;
+    end
+
     startPixel = startPixel + startX;
     ImageFile = ImageFile(:,startX:endX);
     
@@ -70,7 +82,7 @@ end
 Xmax = input('\nEnter the number of pixels to the right of the peak to keep: ');
 AVG = mean(ImageFile,2); % These lines of code checks to see if the number of pixels you want to keep is valid. If it is not, you can re-enter a different number
 [Max, k] = max(AVG);
-[c,v] = size(ImageFile);
+[c,v] = size(ImageFile)
 while (Xmax > (c-k))
     Xmax = input('You chose too many pixels. Choose a new number: ');
 end
