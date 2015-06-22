@@ -1,10 +1,10 @@
-ls "./images"
+ls './images'
 clear
 clf reset
 base = pwd;
 addpath(pwd)
-addpath([pwd "/subfunctions/"])
-cd "images"
+addpath([pwd '/subfunctions/'])
+cd 'images'
 %  -------------------------------------------------------------------------
 %% Values to be changed in the code
 %  -------------------------------------------------------------------------
@@ -70,20 +70,20 @@ OutputFilename = [OutputFilename OutputExtension];
 
 %extra routine to plot start point on original image
 fig4 = figure(4);
-hold on;
 dataPic = imread(ImageFilename);
 imshow(dataPic);
+hold on;
 [tmp,x] = max(mean(dataPic));
 y = startPixel;
 y2 = startPixel + length(CutImage(1,1:end));
 
-r = 5;
+r = 3;
 t = linspace(0,2*pi,100)'; 
 circsx = r.*cos(t) + x; 
 circsy = r.*sin(t) + y; 
 plot(circsx,circsy);
 
-circsy2 = r.*sin(t) + y2
+circsy2 = r.*sin(t) + y2;
 plot(circsx,circsy2);
 %  ------------------------------------------------------------------------
 %% Gets the intensity data from the cut image
