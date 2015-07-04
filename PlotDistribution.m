@@ -1,5 +1,7 @@
 clear
 clf
+cd './output'
+ls
 warning('off','MATLAB:Axes:NegativeDataInLogAxis')
 
 %  ------------------------------------------------------------------------
@@ -7,7 +9,7 @@ warning('off','MATLAB:Axes:NegativeDataInLogAxis')
 %  ------------------------------------------------------------------------
 
 FileExtension = '.CSV'; %Extension for type of file
-OutputDirectory = 'H:\MyDocs\Completed Matlab Programs\3D Fits\Output';
+%OutputDirectory = 'H:\MyDocs\Completed Matlab Programs\3D Fits\Output';
 xmax = 25; %how far from zero the graph should show
 
 
@@ -19,7 +21,7 @@ comma = {','};
 
 mainpath = 'H:\MyDocs\Completed Matlab Programs\3D Fits\'; %This path needs to be changed every time the file is moved
 
-addpath([mainpath '/Images/']);
+%addpath([mainpath '/Images/']);
 addpath([mainpath '/Output/']);
 addpath([mainpath '/subfunctions/']);
 
@@ -83,7 +85,7 @@ set(gca,'XMinorGrid','off','YMinorGrid','off')
 str = ['legend(' legendEntry apostrophe 'Location' apostrophe comma apostrophe 'NorthEast' apostrophe ')'];
 eval (str)
 
-
+cd ..
 
 
 
