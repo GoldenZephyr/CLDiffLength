@@ -68,23 +68,7 @@ OutputFilename = [OutputFilename OutputExtension];
 %  ------------------------------------------------------------------------
 [CutImage,startPixel] = LoadAndCut(ImageFilename, BackgroundFile, bgSubtraction);
 
-%extra routine to plot start point on original image
-fig4 = figure(4);
-hold on;
-dataPic = imread(ImageFilename);
-imshow(dataPic);
-[tmp,x] = max(mean(dataPic));
-y = startPixel;
-y2 = startPixel + length(CutImage(1,1:end));
 
-r = 5;
-t = linspace(0,2*pi,100)'; 
-circsx = r.*cos(t) + x; 
-circsy = r.*sin(t) + y; 
-plot(circsx,circsy);
-
-circsy2 = r.*sin(t) + y2
-plot(circsx,circsy2);
 %  ------------------------------------------------------------------------
 %% Gets the intensity data from the cut image
 %  ------------------------------------------------------------------------
@@ -151,12 +135,7 @@ dlmwrite([base '/output/' OutputFilename], outData(1,1:3), '-append')
 % Sets up plot
 %-------------------%
 
-figure6 = figure(6);
-plot(XLength(ceil((Points2Roll+1)/2)),DiffusionLength(1,1), '.');
-hold on;
-grid();
-xlabel('Distance into line','VerticalAlignment','cap','HorizontalAlignment','center');
-ylabel('Diffusion Length','Visible','off','HorizontalAlignment','center');
+
 
 for k = 2:length(RollingAverage(:,1)) %This is the main fitting loop. The loop runs for every rolling average point along the scan. The initial fit values for the Kth fit are the best fit values for the (K-1)th fit, which greatly improves speed.
     tic
@@ -165,10 +144,13 @@ for k = 2:length(RollingAverage(:,1)) %This is the main fitting loop. The loop r
     XWidth(FirstDatapoint:LastDatapoint),RollingAverage(k,FirstDatapoint:LastDatapoint), plotname, savename);
 
     time(k) = toc;
-    display(time(k))
+    tf = fopen("timerlog.txt",'a');
+    fwrite(tf,num2str(time(k)));
+    fwrite(tf,'-');
+    fclose(tf);
+    %display(time(k))
     
-    figure(6);
-    plot(XLength(ceil((Points2Roll+1)/2)+k-1),DiffusionLength(k,1), '.');
+    
    
     outData(k,1) = XLength(ceil((Points2Roll+1)/2)+k-1); % Puts the desired output information into the outData matrix, which is then written to the output file.
     outData(k,2) = DiffusionLength(k);

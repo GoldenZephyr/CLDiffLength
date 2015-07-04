@@ -26,17 +26,7 @@ end
 %% Lets you cut the data as much as you want
 %  ------------------------------------------------------------------------
 startPixel = 0;
-figure1 = figure(1);
-    clf('reset');
-    axes1 = axes('Parent',figure1,'CLim',[0 1]);
-    view(axes1,[0 0]);
-    grid(axes1,'minor');
-    hold(axes1,'all');
-    surfl(ImageFile)
-    shading interp
-    colormap copper
-    xlabel('row','VerticalAlignment','cap','HorizontalAlignment','center');
-    ylabel('column','Visible','off','HorizontalAlignment','center');
+
     
 i = 1;
 while i<2 %this loops allows you to continue cutting the edges of the data until the desired part is reached.
@@ -57,17 +47,7 @@ while i<2 %this loops allows you to continue cutting the edges of the data until
     startPixel = startPixel + startX;
     ImageFile = ImageFile(:,startX:endX);
     
-    figure1 = figure(1);
-    clf('reset');
-    axes1 = axes('Parent',figure1,'CLim',[0 1]);
-    view(axes1,[0 0]);
-    grid(axes1,'minor');
-    hold(axes1,'all');
-    surfl(ImageFile)
-    shading interp
-    colormap copper
-    xlabel('row','VerticalAlignment','cap','HorizontalAlignment','center');
-    ylabel('column','Visible','off','HorizontalAlignment','center');
+   
     
     
     again = input('Would you like to trim again? ','s');
